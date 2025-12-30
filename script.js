@@ -1,7 +1,7 @@
 /* LOGIN */
 function login() {
-  let u = document.getElementById("user").value;
-  let p = document.getElementById("pass").value;
+  const u = document.getElementById("user").value;
+  const p = document.getElementById("pass").value;
   if (u === "Karien Krisdina S" && p === "070321") {
     window.location.href = "index.html";
   } else {
@@ -9,7 +9,7 @@ function login() {
   }
 }
 
-/* TYPING */
+/* TYPING EFFECT */
 const text = "Selamat Lulus Sidang Skripsi 🤍";
 let i = 0;
 const typing = document.getElementById("typing");
@@ -21,7 +21,7 @@ if (typing) {
       setTimeout(type, 100);
     }
   }
-  window.onload = type;
+  window.addEventListener("load", type); // safer than window.onload
 }
 
 /* MUSIC FADE IN */
@@ -29,7 +29,7 @@ const audio = document.querySelector("audio");
 if (audio) {
   audio.volume = 0;
   let v = 0;
-  let fadeIn = setInterval(() => {
+  const fadeIn = setInterval(() => {
     if (v < 0.6) {
       v += 0.02;
       audio.volume = v;
@@ -37,13 +37,13 @@ if (audio) {
   }, 200);
 }
 
-/* FLOWERS */
+/* FLOWERS FALLING */
 const flowers = document.querySelector(".flowers");
 let emojis = ["🌸","🌼","💮"];
 
 if (flowers) {
   setInterval(() => {
-    let f = document.createElement("div");
+    const f = document.createElement("div");
     f.className = "flower";
     f.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
     f.style.left = Math.random()*100 + "vw";
@@ -54,7 +54,7 @@ if (flowers) {
   }, 500);
 }
 
-/* CHANGE TO HEART */
+/* CHANGE FLOWERS TO HEART WHEN SCROLLING TO ENDING */
 const ending = document.querySelector(".ending");
 window.addEventListener("scroll", () => {
   if (ending && ending.getBoundingClientRect().top < window.innerHeight) {
@@ -62,44 +62,56 @@ window.addEventListener("scroll", () => {
   }
 });
 
-/* FADE UP */
-const fade = document.querySelectorAll(".fade-up");
+/* FADE-UP EFFECT */
+const fadeElements = document.querySelectorAll(".fade-up");
 window.addEventListener("scroll", () => {
-  fade.forEach(el => {
+  fadeElements.forEach(el => {
     if (el.getBoundingClientRect().top < window.innerHeight - 100) {
       el.classList.add("show");
     }
   });
 });
 
+/* STICKERS PARALLAX */
 const stickers = document.querySelectorAll(".sticker");
-
 window.addEventListener("scroll", () => {
   const y = window.scrollY;
   stickers.forEach((s, i) => {
-    s.style.transform =
-      `translateY(${y * 0.05 * (i + 1)}px)`;
+    s.style.transform = `translateY(${y * 0.05 * (i + 1)}px)`;
   });
 });
 
-/* TANYA */
+/* TANYA BUTTON */
 function tanya() {
-  let jawab = confirm("Mau liat bukti kangennya? 🥺");
-  if (jawab) window.location.href = "bukti.html";
-  else document.getElementById("penutup").scrollIntoView({behavior:"smooth"});
+  const jawab = confirm("Mau liat bukti kangennya? 🥺");
+  if (jawab) {
+    window.location.href = "bukti.html";
+  } else {
+    document.getElementById("penutup").scrollIntoView({behavior:"smooth"});
+  }
 }
 
-/* HIDDEN MESSAGE */
+/* HIDDEN FINAL MESSAGE */
 let hold;
-document.body.addEventListener("touchstart",()=>{
-  hold = setTimeout(()=>{
-    document.getElementById("finalMessage").classList.add("show");
-  },3000);
+document.body.addEventListener("touchstart", () => {
+  hold = setTimeout(() => {
+    const msg = document.getElementById("finalMessage");
+    if(msg) msg.classList.add("show");
+  }, 3000);
 });
-document.body.addEventListener("touchend",()=>clearTimeout(hold));
+document.body.addEventListener("touchend", () => clearTimeout(hold));
 
+// Optional for desktop users
+document.body.addEventListener("mousedown", () => {
+  hold = setTimeout(() => {
+    const msg = document.getElementById("finalMessage");
+    if(msg) msg.classList.add("show");
+  }, 3000);
+});
+document.body.addEventListener("mouseup", () => clearTimeout(hold));
+
+/* SECTIONS ACTIVE ON SCROLL */
 const sections = document.querySelectorAll(".section");
-
 window.addEventListener("scroll", () => {
   sections.forEach(sec => {
     if (sec.getBoundingClientRect().top < window.innerHeight/2) {
@@ -110,15 +122,15 @@ window.addEventListener("scroll", () => {
   });
 });
 
+/* ENDING STICKERS CHANGE */
 const endingSection = document.querySelector(".ending");
-
 window.addEventListener("scroll", () => {
-  if (
-    endingSection &&
-    endingSection.getBoundingClientRect().top < window.innerHeight
-  ) {
-    document.querySelector(".s1").src = "foto/heart1.png";
-    document.querySelector(".s2").src = "foto/heart2.png";
-    document.querySelector(".s3").src = "foto/heart3.png";
+  if (endingSection && endingSection.getBoundingClientRect().top < window.innerHeight) {
+    const s1 = document.querySelector(".s1");
+    const s2 = document.querySelector(".s2");
+    const s3 = document.querySelector(".s3");
+    if (s1) s1.src = "foto/heart1.png";
+    if (s2) s2.src = "foto/heart2.png";
+    if (s3) s3.src = "foto/heart3.png";
   }
 });
