@@ -1,23 +1,40 @@
-* { box-sizing: border-box; }
+/* ===========================
+   GLOBAL STYLES
+=========================== */
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: #fff;
   color: #333;
-}
-
-.section {
-  height: 100vh;
-  scroll-snap-align: start;
-  padding: 24px;
+  overflow-x: hidden;
 }
 
 html, body {
   scroll-snap-type: y mandatory;
 }
 
-/* LOGIN */
+/* ===========================
+   SECTIONS
+=========================== */
+.section {
+  height: 100vh;
+  scroll-snap-align: start;
+  padding: 24px;
+  transition: backdrop-filter 1s ease;
+  backdrop-filter: blur(0px);
+}
+
+.section.active {
+  backdrop-filter: blur(2px);
+}
+
+/* ===========================
+   LOGIN PAGE
+=========================== */
 .login-page {
   display: flex;
   justify-content: center;
@@ -29,7 +46,7 @@ html, body {
   background: #fff;
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
 
@@ -39,22 +56,35 @@ input, button {
   margin: 8px 0;
   border-radius: 20px;
   border: none;
+  font-size: 16px;
 }
 
 button {
   background: #ff9db0;
-  color: white;
+  color: #fff;
   font-weight: bold;
+  cursor: pointer;
 }
 
-/* HERO */
+@media(max-width:500px){
+  .login-box {
+    width: 90%;
+    padding: 20px;
+  }
+}
+
+/* ===========================
+   HERO & STICKERS
+=========================== */
 .hero {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
-/* STICKER BACKGROUND */
+
 .stickers {
   position: fixed;
   inset: 0;
@@ -65,45 +95,6 @@ button {
 .sticker {
   position: absolute;
   width: 90px;
-  opacity: 0.85;
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Posisi tiap stiker */
-.s1 {
-  top: 15%;
-  left: 10%;
-  animation-delay: 0s;
-}
-
-.s2 {
-  top: 50%;
-  right: 8%;
-  animation-delay: 1.5s;
-}
-
-.s3 {
-  bottom: 15%;
-  left: 30%;
-  animation-delay: 3s;
-}
-
-/* Animasi lembut */
-@keyframes float {
-  0%   { transform: translateY(0px) rotate(-2deg); }
-  50%  { transform: translateY(-20px) rotate(2deg); }
-  100% { transform: translateY(0px) rotate(-2deg); }
-}
-
-/* Pastikan teks di atas stiker */
-.hero,
-.message,
-.ending {
-  position: relative;
-  z-index: 2;
-}
-
-.sticker {
   opacity: 0;
   transform: scale(0.8);
   animation:
@@ -112,18 +103,31 @@ button {
     drift 14s linear infinite;
 }
 
-.s1 { animation-delay: 0.5s, 0s, 0s; }
-.s2 { animation-delay: 1.5s, 1.5s, 1.5s; }
-.s3 { animation-delay: 2.5s, 2.5s, 2.5s; }
+/* Sticker positions */
+.s1 { top: 15%; left: 10%; animation-delay: 0.5s, 0s, 0s; }
+.s2 { top: 50%; right: 8%; animation-delay: 1.5s, 1.5s, 1.5s; }
+.s3 { bottom: 15%; left: 30%; animation-delay: 2.5s, 2.5s, 2.5s; }
 
+/* Sticker animations */
 @keyframes fadeIn {
-  to {
-    opacity: 0.9;
-    transform: scale(1);
-  }
+  to { opacity: 0.9; transform: scale(1); }
 }
 
-/* FLOWERS */
+@keyframes float {
+  0%   { transform: translateY(0px) rotate(-2deg); }
+  50%  { transform: translateY(-20px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(-2deg); }
+}
+
+@keyframes drift {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(0px); }
+}
+
+/* ===========================
+   FLOWERS
+=========================== */
 .flowers {
   position: fixed;
   inset: 0;
@@ -138,20 +142,22 @@ button {
 }
 
 @keyframes fall {
-  to {
-    transform: translateY(110vh) rotate(360deg);
-  }
+  to { transform: translateY(110vh) rotate(360deg); }
 }
 
-/* MESSAGE CARD */
+/* ===========================
+   MESSAGE CARD
+=========================== */
 .message-card {
   display: flex;
   gap: 16px;
   background: #fff;
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .message-card img {
@@ -166,13 +172,14 @@ button {
   }
 }
 
-/* VIDEO */
+/* ===========================
+   VIDEO & SLIDER
+=========================== */
 video {
   width: 100%;
   border-radius: 20px;
 }
 
-/* MANUAL SLIDER */
 .manual-slider {
   display: flex;
   gap: 16px;
@@ -186,7 +193,13 @@ video {
   scroll-snap-align: center;
 }
 
-/* FADE */
+.manual-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===========================
+   FADE-UP
+=========================== */
 .fade-up {
   opacity: 0;
   transform: translateY(40px);
@@ -198,7 +211,9 @@ video {
   transform: none;
 }
 
-/* FINAL MESSAGE */
+/* ===========================
+   FINAL MESSAGE
+=========================== */
 #finalMessage {
   position: fixed;
   inset: 0;
@@ -216,13 +231,4 @@ video {
 #finalMessage.show {
   opacity: 1;
   pointer-events: auto;
-}
-
-.section {
-  backdrop-filter: blur(0px);
-  transition: backdrop-filter 1s ease;
-}
-
-.section.active {
-  backdrop-filter: blur(2px);
 }
